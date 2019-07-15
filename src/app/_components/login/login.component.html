@@ -1,0 +1,31 @@
+<div class="sidenav">
+  <div class="login-main-text">
+    <h2>B&G<br> ENTREGA!</h2>
+    <p>Faça o login para ter acesso ao sistema mais top!</p>
+  </div>
+</div>
+<div class="main">
+  <div class="col-md-6 col-sm-12">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="login-form">
+        <alert></alert>
+        <div class="form-group">
+          <label>Usuário</label>
+          <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Nome de usuário"
+            formControlName="usuario">
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" id="senha" name="senha" class="form-control" placeholder="Senha"
+            formControlName="senha">
+        </div>
+        <div class="form-group">
+          <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Register
+          </button></div>
+
+      </div>
+    </form>
+  </div>
+</div>
