@@ -5,7 +5,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiConfig } from 'src/app/_interfaces/api-config';
 import { first } from 'rxjs/operators';
 import { AlertService } from '../alert/alert.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   submitted = false;
+  returnUrl: string;
 
   usuario: Usuario = new Usuario();
 
@@ -24,7 +26,9 @@ export class LoginComponent implements OnInit {
     private loginSerivce: LoginService,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private router: Router,
+    private authenticationService: AuthenticationService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -32,6 +36,8 @@ export class LoginComponent implements OnInit {
       usuario: ['', Validators.required],
       senha: ['', Validators.required]
     })
+
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   onSubmit() {
@@ -41,8 +47,19 @@ export class LoginComponent implements OnInit {
       this.alertService.error('Usuário ou senha inválidos.');
       return;
     }
-    this.usuario.usuario = this.loginForm.value.usuario;
-    this.usuario.senha = this.loginForm.value.senha;
+    this.usuario.username = this.loginForm.value.usuario;
+    this.usuario.password = this.loginForm.value.senha;
+
+    this.authenticationService.login(this.usuario.username, this.usuario.password)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.router.navigate([this.returnUrl]);
+        },
+        error => {
+          this.alertService.error(error);
+          this.loading = false;
+        });
 
     this.loginSerivce.doLogin(this.usuario).pipe(first())
       .subscribe(
@@ -54,5 +71,7 @@ export class LoginComponent implements OnInit {
           this.alertService.error('Usuário ou senha inválidos.');
           this.loading = false;
         });
+
+
   }
 }
