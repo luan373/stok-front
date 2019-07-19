@@ -47,9 +47,11 @@ export class LoginComponent implements OnInit {
       this.alertService.error('Usuário ou senha inválidos.');
       return;
     }
+
     this.usuario.username = this.loginForm.value.usuario;
     this.usuario.password = this.loginForm.value.senha;
 
+    this.loading = true;
     this.authenticationService.login(this.usuario.username, this.usuario.password)
       .pipe(first())
       .subscribe(
@@ -57,21 +59,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          this.alertService.error(error);
-          this.loading = false;
-        });
-
-    this.loginSerivce.doLogin(this.usuario).pipe(first())
-      .subscribe(
-        data => {
-          this.alertService.success('Registration successful', true);
-          this.router.navigate(['/home'])
-        },
-        error => {
           this.alertService.error('Usuário ou senha inválidos.');
           this.loading = false;
         });
-
 
   }
 }

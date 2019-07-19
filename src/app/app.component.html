@@ -1,1 +1,21 @@
-<app-login></app-login>
+<!-- Login -->
+<app-login *ngIf="!currentUser"></app-login>
+
+<!-- nav -->
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link" routerLink="/">Home</a>
+        <a class="nav-item nav-link" (click)="logout()">Logout</a>
+    </div>
+</nav>
+
+<main role="main" *ngIf="currentUser">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 offset-sm-3">
+                <alert></alert>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</main>
