@@ -11,6 +11,8 @@ import { AlertComponent } from './_components/alert/alert.component';
 import { appRoutingModule } from './app.routing';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { MotoBoyComponent } from './_components/moto-boy/moto-boy.component';
+import { ListarMotoBoyComponent } from './_components/moto-boy/listar-moto-boy/listar-moto-boy.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
     LoginComponent,
     NavbarComponent,
     HomeComponent,
-    AlertComponent
+    AlertComponent,
+    MotoBoyComponent,
+    ListarMotoBoyComponent
   ],
   imports: [
     BrowserModule,
