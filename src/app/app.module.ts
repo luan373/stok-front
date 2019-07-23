@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { DataTablesModule } from 'angular-datatables';
+
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './_components/navbar/navbar.component';
 import { LoginComponent } from './_components/login/login.component';
@@ -28,6 +30,7 @@ import { ListarMotoBoyComponent } from './_components/moto-boy/listar-moto-boy/l
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
+    DataTablesModule,
     appRoutingModule
   ],
   providers: [

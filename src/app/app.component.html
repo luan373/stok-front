@@ -2,7 +2,7 @@
 <app-login *ngIf="!currentUser"></app-login>
 
 <!-- nav -->
-<header *ngIf="currentUser">    
+<header *ngIf="currentUser">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="/">Stok</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -11,6 +11,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MotoBoy</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown02">
+                        <a class="dropdown-item" href="/motoBoy">Cadastrar MotoBoy</a>
+                        <a class="dropdown-item" href="/listarMotoBoy">Listar MotoBoy</a>
+                    </div>
+                </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Home <span class="sr-only">(atual)</span></a>
                 </li>
@@ -18,9 +26,9 @@
                     <a class="nav-link" href="#">Link</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01"
+                    <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown02"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <div class="dropdown-menu" aria-labelledby="dropdown02">
                         <a class="dropdown-item" href="#">Item</a>
                         <a class="dropdown-item" href="#">Outro item</a>
                         <a class="dropdown-item" href="#">Algum outro item</a>
@@ -39,9 +47,3 @@
         <router-outlet></router-outlet>
     </div>
 </main>
-
-<footer class="footer mt-auto py-3 fixed-bottom" *ngIf="currentUser">
-    <div class="container">
-        <span class="text-muted">O sistema que vai substituir o poderoso Excel.</span>
-    </div>
-</footer>
