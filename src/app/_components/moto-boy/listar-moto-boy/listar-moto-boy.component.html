@@ -4,15 +4,21 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>First name</th>
-            <th>Last name</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Placa</th>
+            <th>Número Habilitação</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let person of listaMotoBoy">
-            <td>{{ person.id }}</td>
-            <td>{{ person.nome }}</td>
-            <td>{{ person.nrHabilitacao }}</td>
+        <tr *ngFor="let motoBoy of listaMotoBoy">
+            <td>{{ motoBoy.id }}</td>
+            <td>{{ motoBoy.nome }}</td>
+            <td>{{ motoBoy.cpf }}</td>
+            <td>{{ motoBoy.placa }}</td>
+            <td>{{ motoBoy.nrHabilitacao }}</td>
+            <td><button class="btn btn-primary" (click)="redirecionaAlterar(motoBoy)">Editar</button></td>
         </tr>
     </tbody>
 </table>

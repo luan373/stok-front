@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ListarMotoBoyService } from 'src/app/_services/listar-moto-boy.service';
 import { MotoBoy } from 'src/app/_models/motoBoy';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-listar-moto-boy',
@@ -15,15 +16,16 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
 
   listaMotoBoy: MotoBoy[] = [];
 
-  constructor(private listarMotoBoyService: ListarMotoBoyService) {
-
-  }
+  constructor(
+    private listarMotoBoyService: ListarMotoBoyService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
-      processing: true    
+      processing: true
     };
 
     this.listarMotoBoyService.lista().subscribe((data: []) => {
@@ -34,8 +36,15 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
 
   }
 
+  public redirecionaAlterar(motoBoy: MotoBoy) {
+    console.log(motoBoy)
+    localStorage.setItem('motoBoy', JSON.stringify(motoBoy));
+    this.router.navigate(['/motoBoy']);
+  }
+
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
+    localStorage.removeItem('motoBoy');
   }
 
 }
