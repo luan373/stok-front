@@ -1,1 +1,18 @@
-<p>listar-moto-boy works!</p>
+<h1>Lista de Motoboys</h1>
+
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Last name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let person of listaMotoBoy">
+            <td>{{ person.id }}</td>
+            <td>{{ person.nome }}</td>
+            <td>{{ person.nrHabilitacao }}</td>
+        </tr>
+    </tbody>
+</table>
