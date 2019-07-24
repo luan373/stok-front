@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ListarMotoBoyService } from 'src/app/_services/listar-moto-boy.service';
 import { MotoBoy } from 'src/app/_models/motoBoy';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MotoBoyService } from 'src/app/_services/moto-boy.service';
 
 @Component({
   selector: 'app-listar-moto-boy',
@@ -17,8 +17,7 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
   listaMotoBoy: MotoBoy[] = [];
 
   constructor(
-    private listarMotoBoyService: ListarMotoBoyService,
-    private route: ActivatedRoute,
+    private motoBoyService: MotoBoyService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -28,7 +27,7 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
       processing: true
     };
 
-    this.listarMotoBoyService.lista().subscribe((data: []) => {
+    this.motoBoyService.lista().subscribe((data: []) => {
       this.listaMotoBoy = data;
 
       this.dtTrigger.next();
@@ -36,15 +35,12 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
 
   }
 
-  public redirecionaAlterar(motoBoy: MotoBoy) {
-    console.log(motoBoy)
-    localStorage.setItem('motoBoy', JSON.stringify(motoBoy));
-    this.router.navigate(['/motoBoy']);
+  public redirecionaAlterar(idMotoBoy: any) {
+    this.router.navigate(['/motoBoy', idMotoBoy]);
   }
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
-    localStorage.removeItem('motoBoy');
   }
 
 }

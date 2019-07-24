@@ -15,6 +15,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { MotoBoyComponent } from './_components/moto-boy/moto-boy.component';
 import { ListarMotoBoyComponent } from './_components/moto-boy/listar-moto-boy/listar-moto-boy.component';
+import { ProdutoComponent } from './_components/produto/produto.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ListarMotoBoyComponent } from './_components/moto-boy/listar-moto-boy/l
     HomeComponent,
     AlertComponent,
     MotoBoyComponent,
-    ListarMotoBoyComponent
+    ListarMotoBoyComponent,
+    ProdutoComponent
   ],
   imports: [
     BrowserModule,
