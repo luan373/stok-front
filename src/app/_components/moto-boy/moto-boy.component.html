@@ -12,11 +12,11 @@
     </div>
     <div class="form-group">
         <label>Placa</label>
-        <input type="password" id="placa" name="placa" class="form-control" placeholder="Placa" formControlName="placa">
+        <input type="text" id="placa" name="placa" class="form-control" placeholder="Placa" formControlName="placa">
     </div>
     <div class="form-group">
         <label>Número de Hablitação</label>
-        <input type="password" id="nrHabilitacao" name="nrHabilitacao" class="form-control"
+        <input type="text" id="nrHabilitacao" name="nrHabilitacao" class="form-control"
             placeholder="Número de Hablitação" formControlName="nrHabilitacao">
     </div>
     <div class="form-group">
@@ -24,7 +24,7 @@
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
             Salvar
         </button>
-        <button class="btn btn-secondary" [routerLink]="['/listarMotoBoy']">Voltar
+        <button class="btn btn-secondary" (click)="direcionaListarMotoBoy()">Voltar
         </button></div>
 
 </form>

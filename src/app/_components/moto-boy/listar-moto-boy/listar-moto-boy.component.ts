@@ -27,7 +27,7 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
       processing: true
     };
 
-    this.motoBoyService.lista().subscribe((data: []) => {
+    this.motoBoyService.listar().subscribe((data: []) => {
       this.listaMotoBoy = data;
 
       this.dtTrigger.next();

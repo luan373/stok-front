@@ -4,7 +4,7 @@ import { AlertService } from '../alert/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MotoBoyService } from 'src/app/_services/moto-boy.service';
 import { map } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-moto-boy',
@@ -21,7 +21,6 @@ export class MotoBoyComponent implements OnInit, OnDestroy {
 
   constructor(
     private alertService: AlertService,
-    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private motoBoyService: MotoBoyService
@@ -30,12 +29,12 @@ export class MotoBoyComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.recuperaMotoBoy();
 
-    this.motoBoyForm = this.formBuilder.group({
-      nome: ['', Validators.required],
-      placa: ['', Validators.required],
-      cpf: ['', Validators.required],
-      nrHabilitacao: ['', Validators.required]
-    })
+    this.motoBoyForm = new FormGroup({
+      nome: new FormControl('', Validators.required),
+      placa: new FormControl('', Validators.required),
+      cpf: new FormControl('', Validators.required),
+      nrHabilitacao: new FormControl('', Validators.required)
+    });
   }
 
   ngOnDestroy(): void {
@@ -47,32 +46,25 @@ export class MotoBoyComponent implements OnInit, OnDestroy {
     let id = this.route.snapshot.params['id'];
 
     if (id != undefined) {
-      this.motoBoyService.buscarPorId(id).pipe(map(data => {
-        this.displaydata(data);
-        this.recuperaTitulo();
-      })).toPromise();
+      this.motoBoyService.buscarPorId(id).subscribe(data => {
+        this.motoBoyForm = new FormGroup({
+          id: new FormControl(data.id, Validators.required),
+          nome: new FormControl(data.nome, Validators.required),
+          placa: new FormControl(data.placa, Validators.required),
+          cpf: new FormControl(data.cpf, Validators.required),
+          nrHabilitacao: new FormControl(data.nrHabilitacao, Validators.required)
+        });
+
+        this.titulo = "Alterar MotoBoy";
+      });
+
     } else {
-      this.recuperaTitulo();
-    }
-  }
-
-
-  displaydata(data) {
-    this.motoBoy = new MotoBoy();
-    this.motoBoy.id = data.id;
-    this.motoBoy.cpf = data.cpf;
-    this.motoBoy.nome = data.nome;
-    this.motoBoy.nrHabilitacao = data.nrHabilitacao;
-    this.motoBoy.placa = data.placa;
-  }
-
-  private recuperaTitulo() {
-    console.log("aff" + this.motoBoy);
-    if (this.motoBoy == null) {
       this.titulo = "Cadastrar MotoBoy";
-    } else {
-      this.titulo = "Alterar MotoBoy";
     }
+  }
+
+  public direcionaListarMotoBoy() {
+    this.router.navigate(['/listarMotoBoy']);
   }
 
   onSubmit() {
@@ -82,6 +74,28 @@ export class MotoBoyComponent implements OnInit, OnDestroy {
       this.alertService.error('Dados inválidos.');
       return;
     }
+
+    this.loading = true;
+
+    this.motoBoy = new MotoBoy();
+    this.motoBoy.cpf = this.motoBoyForm.value.cpf;
+    this.motoBoy.nome = this.motoBoyForm.value.nome;
+    this.motoBoy.nrHabilitacao = this.motoBoyForm.value.nrHabilitacao;
+    this.motoBoy.placa = this.motoBoyForm.value.placa;
+
+    if (this.motoBoyForm.value.id != null) {
+      this.motoBoy.id = this.motoBoyForm.value.id;
+
+      this.motoBoyService.atualizar(this.motoBoy);
+
+      this.alertService.success("MotoBoy atualizado com sucesso!", true)
+    } else {
+      this.motoBoyService.salvar(this.motoBoy);
+
+      this.alertService.success("MotoBoy cadastrado com sucesso!", true)
+    }
+
+    this.router.navigate(['/listarMotoBoy']);
   }
 
 }
