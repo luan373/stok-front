@@ -24,18 +24,15 @@ export class MotoBoyService {
     return this.http.get<MotoBoy>(url);
   }
 
-  atualizar(motoBoy: MotoBoy) {
-    this.http.put<MotoBoy>(this.API, motoBoy).pipe(map(resp => {
-      if (resp != null) {
-
-      }
-      
-    })).toPromise();
+  atualizar(motoBoy: MotoBoy): Observable<MotoBoy> {
+    return this.http.put<MotoBoy>(this.API, motoBoy).pipe(
+      catchError(this.handleError('atualizar', motoBoy)));
 
   }
 
-  salvar(motoBoy: MotoBoy) {
-    this.http.post<MotoBoy>(this.API, motoBoy).toPromise();
+  salvar(motoBoy: MotoBoy): Observable<MotoBoy> {
+    return this.http.post<MotoBoy>(this.API, motoBoy).pipe(
+      catchError(this.handleError('salvar', motoBoy)));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

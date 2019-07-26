@@ -86,15 +86,18 @@ export class MotoBoyComponent implements OnInit, OnDestroy {
     if (this.motoBoyForm.value.id != null) {
       this.motoBoy.id = this.motoBoyForm.value.id;
 
-      this.motoBoyService.atualizar(this.motoBoy);
-
-      this.alertService.success("MotoBoy atualizado com sucesso!", true)
+      this.motoBoyService.atualizar(this.motoBoy).subscribe(
+        () => this.redirecionaListaMotoBoy()
+      );
     } else {
-      this.motoBoyService.salvar(this.motoBoy);
-
-      this.alertService.success("MotoBoy cadastrado com sucesso!", true)
+      this.motoBoyService.salvar(this.motoBoy).subscribe(
+        () => this.redirecionaListaMotoBoy()
+      );
     }
+  }
 
+  redirecionaListaMotoBoy() {
+    this.alertService.success("MotoBoy salvo com sucesso!", true);
     this.router.navigate(['/listarMotoBoy']);
   }
 
