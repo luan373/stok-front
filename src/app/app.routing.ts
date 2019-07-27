@@ -14,6 +14,7 @@ const routes: Routes = [
     { path: 'motoBoy/:id', component: MotoBoyComponent },
     { path: 'motoBoy', component: MotoBoyComponent },
     { path: 'listarMotoBoy', component: ListarMotoBoyComponent },
+    { path: 'listarMotoBoy/:isExcluido', component: ListarMotoBoyComponent },    
     { path: 'produto', component: ProdutoComponent },
 
     // otherwise redirect to home

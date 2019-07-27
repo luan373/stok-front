@@ -16,16 +16,17 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let motoBoy of listaMotoBoy"> 
+    <tr *ngFor="let motoBoy of listaMotoBoy">
       <td>{{ motoBoy.id }}</td>
       <td>{{ motoBoy.nome }}</td>
       <td>{{ motoBoy.cpf }}</td>
       <td>{{ motoBoy.placa }}</td>
       <td>{{ motoBoy.nrHabilitacao }}</td>
       <td>
-        <button class="btn btn-primary" (click)="redirecionaAlterar(motoBoy.id)">Editar</button>
-        <button href="#editEmployeeModal" class="btn btn-warning" data-toggle="modal">Editar Modal</button>
-        <button href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">Excluir</button>
+        <button class="btn btn-primary btn-space" (click)="redirecionaAlterar(motoBoy.id)">Editar</button>
+        <button href="#editEmployeeModal" class="btn btn-warning btn-space" data-toggle="modal">Editar Modal</button>
+        <button class="btn btn-danger btn-space" (click)="ngxSmartModalService.getModal('myModalDelete').open(); 
+          recuperaMotoBoy(motoBoy)">Excluir</button>
 
     </tr>
   </tbody>
@@ -115,23 +116,24 @@
     </div>
   </div>
 </div>
-<!-- Delete Modal HTML -->
-<div id="deleteEmployeeModal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form [formGroup]="motoBoyForm">
-        <div class="modal-header">
-          <h4 class="modal-title">Excluir Motoboy</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        </div>
-        <div class="modal-body">
-          <p>Deseja realmente excluir este motoboy?</p>
-          <p class="text-danger"><small>Isso não poderá ser desfeito.</small></p>
-        </div>
-        <div class="modal-footer">
-          <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-          <input type="submit" class="btn btn-danger" value="Excluir">
-        </div>
-      </form>
+
+<!-- Delete ngx-smart-modal -->
+<ngx-smart-modal #myModalDelete identifier="myModalDelete">
+  <form [formGroup]="motoBoyForm">
+    <div class="modal-header">
+      <h4 class="modal-title">Excluir Motoboy</h4>
+
     </div>
-  </div>
+    <div class="modal-body">
+      <p>Deseja realmente excluir este motoboy?</p>
+      <p class="text-danger"><small>Isso não poderá ser desfeito.</small></p>
+    </div>
+    <div class="modal-footer">
+      <input type="button" class="btn btn-default" value="Cancelar" (click)="myModalDelete.close()">
+      <button [disabled]="loading" class="btn btn-danger" (click)="excluirMotoBoy()">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        Excluir
+      </button>
+    </div>
+  </form>
+</ngx-smart-modal>

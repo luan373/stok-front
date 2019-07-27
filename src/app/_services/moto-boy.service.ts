@@ -35,6 +35,13 @@ export class MotoBoyService {
       catchError(this.handleError('salvar', motoBoy)));
   }
 
+  excluir(id: number): Observable<any> {
+    const url = this.API + "/" + id;
+
+    return this.http.delete<MotoBoy>(url).pipe(
+      catchError(this.handleError('salvar', id)));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

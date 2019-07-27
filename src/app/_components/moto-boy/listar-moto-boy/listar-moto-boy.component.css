@@ -14,9 +14,13 @@
 
 h1 {
   padding-top: 2rem;
-  text-align: center;
+  text-align : center;
 }
 
 #botaoAdicionar {
   padding-bottom: 2rem;
+}
+
+.btn-space {
+  margin-right: 10px;
 }

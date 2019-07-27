@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { DataTablesModule } from 'angular-datatables';
+import { NgxSmartModalModule } from 'ngx-smart-modal';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './_components/navbar/navbar.component';
@@ -30,6 +31,7 @@ import { ProdutoComponent } from './_components/produto/produto.component';
   ],
   imports: [
     BrowserModule,
+    NgxSmartModalModule.forRoot(),
     ReactiveFormsModule,
     HttpClientModule,
     DataTablesModule,
