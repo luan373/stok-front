@@ -3,13 +3,17 @@ import { MotoBoy } from 'src/app/_models/motoBoy';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MotoBoyService } from 'src/app/_services/moto-boy.service';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+
 
 @Component({
   selector: 'app-listar-moto-boy',
-  templateUrl: './listar-moto-boy.component.html',
+  templateUrl: './listar-moto-boy.component.html', 
   styleUrls: ['./listar-moto-boy.component.css']
 })
 export class ListarMotoBoyComponent implements OnInit, OnDestroy {
+  motoBoyForm: FormGroup;
+
   dtOptions: DataTables.Settings = {};
 
   dtTrigger: Subject<MotoBoy> = new Subject();
@@ -31,6 +35,9 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
       this.listaMotoBoy = data;
 
       this.dtTrigger.next();
+    });
+    this.motoBoyForm = new FormGroup({
+      firstName: new FormControl()
     });
 
   }
