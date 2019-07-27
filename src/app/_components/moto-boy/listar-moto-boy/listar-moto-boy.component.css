@@ -2,17 +2,21 @@
    server-side-angular-way.component.css
 */
 .no-data-available {
-    text-align: center;
-  }
-  
-  /*
+  text-align: center;
+}
+
+/*
      src/styles.css (i.e. your global style)
   */
-  .dataTables_empty {
-    display: none;
-  }
+.dataTables_empty {
+  display: none;
+}
 
-  h1 {
-    padding-top: 2rem;
-    text-align: center;
-  }
+h1 {
+  padding-top: 2rem;
+  text-align: center;
+}
+
+#botaoAdicionar {
+  padding-bottom: 2rem;
+}
