@@ -18,6 +18,11 @@ import { MotoBoyComponent } from './_components/moto-boy/moto-boy.component';
 import { ListarMotoBoyComponent } from './_components/moto-boy/listar-moto-boy/listar-moto-boy.component';
 import { ProdutoComponent } from './_components/produto/produto.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +40,10 @@ import { ProdutoComponent } from './_components/produto/produto.component';
     ReactiveFormsModule,
     HttpClientModule,
     DataTablesModule,
-    appRoutingModule
+    appRoutingModule,
+    BrowserAnimationsModule,
+    [MatButtonModule, MatCheckboxModule]
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

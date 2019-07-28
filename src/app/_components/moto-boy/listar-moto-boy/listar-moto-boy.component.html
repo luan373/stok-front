@@ -1,6 +1,7 @@
 <h1>Lista de Motoboys</h1>
 <div id="botaoAdicionar">
-  <button href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">Adicionar Motoboy</button>
+  <button href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
+    <i class="material-icons align-bottom">add_circle</i>Adicionar</button>
 </div>
 
 <table class="table table-striped table-hover table table-bordered" datatable [dtOptions]=" dtOptions"
@@ -23,10 +24,17 @@
       <td>{{ motoBoy.placa }}</td>
       <td>{{ motoBoy.nrHabilitacao }}</td>
       <td>
-        <button class="btn btn-primary btn-space" (click)="redirecionaAlterar(motoBoy.id)">Editar</button>
-        <button href="#editEmployeeModal" class="btn btn-warning btn-space" data-toggle="modal">Editar Modal</button>
+        <button class="btn btn-primary btn-space" (click)="redirecionaAlterar(motoBoy.id)"><i class="material-icons">
+            edit
+          </i></button>
+        <button href="#editEmployeeModal" class="btn btn-warning btn-space" data-toggle="modal"><i
+            class="material-icons">
+            edit
+          </i></button>
         <button class="btn btn-danger btn-space" (click)="ngxSmartModalService.getModal('myModalDelete').open(); 
-          recuperaMotoBoy(motoBoy)">Excluir</button>
+          recuperaMotoBoy(motoBoy)"><i class="material-icons">
+            delete_forever
+          </i></button>
 
     </tr>
   </tbody>

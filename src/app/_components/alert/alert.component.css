@@ -1,0 +1,35 @@
+div {
+  -webkit-animation: seconds 1.0s forwards;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-delay: 3s;
+  animation: seconds 1.0s forwards;
+  animation-iteration-count: 1;
+  animation-delay: 3s;
+  position: block;
+}
+
+@-webkit-keyframes seconds {
+  0% {
+    opacity: 1;
+    max-height: 500;
+  }
+
+  100% {
+    opacity: 0;
+    left: -9999px;
+    max-height: 0;
+  }
+}
+
+@keyframes seconds {
+  0% {
+    opacity: 1;
+    max-height: 500;
+  }
+
+  100% {
+    opacity: 0;
+    left: -9999px;
+    max-height: 0;
+  }
+}
