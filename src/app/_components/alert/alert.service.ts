@@ -19,6 +19,7 @@ export class AlertService {
         } else {
           // clear alert message
           this.clear();
+
         }
       }
     });
@@ -29,17 +30,30 @@ export class AlertService {
   }
 
   success(message: string, keepAfterRouteChange = false) {
+    $("#alert").show();
     this.keepAfterRouteChange = keepAfterRouteChange;
     this.subject.next({ type: 'success', text: message });
+    setTimeout(function () {
+      $("#alert").hide();
+    }, 3000);
+
   }
 
   error(message: string, keepAfterRouteChange = false) {
+    $("#alert").show();
     this.keepAfterRouteChange = keepAfterRouteChange;
     this.subject.next({ type: 'error', text: message });
+    setTimeout(function () {
+      $("#alert").hide();
+    }, 3000);
+
   }
 
   clear() {
     // clear by calling subject.next() without parameters
     this.subject.next();
+  }
+  aparecer(){
+
   }
 }
