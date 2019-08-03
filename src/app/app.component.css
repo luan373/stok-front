@@ -10,3 +10,6 @@ main>.container {
     padding-right: 15px;
     padding-left: 15px;
 }
+#imgHeader {
+  height: 2.5em;
+}
