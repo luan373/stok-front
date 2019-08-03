@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MotoBoyService } from 'src/app/_services/moto-boy.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AlertService } from '../../alert/alert.service';
-import { NgxSmartModalService } from 'ngx-smart-modal';
+import { NgxSmartModalService, NgxSmartModalModule } from 'ngx-smart-modal';
 import { DataTableDirective } from 'angular-datatables';
 
 
@@ -30,6 +30,8 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
   loading = false;
   submitted = false;
 
+  titulo: string;
+
   constructor(
     private motoBoyService: MotoBoyService,
     private router: Router,
@@ -39,6 +41,14 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.carregaLista();
+    this.recuperaMotoBoyEdit();
+
+    this.motoBoyForm = new FormGroup({
+      nome: new FormControl('', Validators.required),
+      placa: new FormControl('', Validators.required),
+      cpf: new FormControl('', Validators.required),
+      nrHabilitacao: new FormControl('', Validators.required)
+    });
   }
 
   private carregaLista() {
@@ -118,10 +128,76 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
 
   public redirecionaAlterar(idMotoBoy: any) {
     this.router.navigate(['/motoBoy', idMotoBoy]);
+
   }
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
+  // tslint:disable-next-line: adjacent-overload-signatures
+  private recuperaMotoBoyEdit() {
+    //https://stackoverflow.com/questions/40589730/local-storage-in-angular-2
+    let id = this.route.snapshot.params['id'];
 
+    if (id != undefined) {
+      this.motoBoyService.buscarPorId(id).subscribe(data => {
+        this.motoBoyForm = new FormGroup({
+          id: new FormControl(data.id, Validators.required),
+          nome: new FormControl(data.nome, Validators.required),
+          placa: new FormControl(data.placa, Validators.required),
+          cpf: new FormControl(data.cpf, Validators.required),
+          nrHabilitacao: new FormControl(data.nrHabilitacao, Validators.required)
+        });
+
+        this.titulo = "Alterar MotoBoy";
+      });
+
+    } else {
+      this.titulo = "Cadastrar MotoBoy";
+    }
+  }
+
+  public direcionaListarMotoBoy() {
+    this.router.navigate(['/listarMotoBoy']);
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.motoBoyForm.invalid) {
+      this.alertService.error('Dados inválidos.');
+      return;
+    }
+
+    this.loading = true;
+
+    this.motoBoy = new MotoBoy();
+    this.motoBoy.cpf = this.motoBoyForm.value.cpf;
+    this.motoBoy.nome = this.motoBoyForm.value.nome;
+    this.motoBoy.nrHabilitacao = this.motoBoyForm.value.nrHabilitacao;
+    this.motoBoy.placa = this.motoBoyForm.value.placa;
+
+    if (this.motoBoyForm.value.id != null) {
+      this.motoBoy.id = this.motoBoyForm.value.id;
+
+      this.motoBoyService.atualizar(this.motoBoy).subscribe(
+        () => this.redirecionaListaMotoBoy()
+      );
+    } else {
+      this.motoBoyService.salvar(this.motoBoy).subscribe(
+        () => this.redirecionaListaMotoBoy()
+      );
+    }
+  }
+
+  redirecionaListaMotoBoy() {
+    $("#addEmployeeModal").fadeOut("normal", function () {
+      $('#addEmployeeModal').hide();
+      $('body').removeClass('modal-open');
+      $('.modal-backdrop').remove();
+    });
+    this.alertService.success("MotoBoy salvo com sucesso!", true);
+    this.loading = false;
+    this.rerender();
+  }
 }
