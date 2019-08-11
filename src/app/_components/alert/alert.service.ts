@@ -30,21 +30,31 @@ export class AlertService {
   }
 
   success(message: string, keepAfterRouteChange = false) {
-    $("#alert").show();
+    $("alert").show();
     this.keepAfterRouteChange = keepAfterRouteChange;
     this.subject.next({ type: 'success', text: message });
     setTimeout(function () {
-      $("#alert").hide();
+      $("alert").hide();
     }, 3000);
 
   }
 
   error(message: string, keepAfterRouteChange = false) {
-    $("#alert").show();
+    $("alert").show();
     this.keepAfterRouteChange = keepAfterRouteChange;
     this.subject.next({ type: 'error', text: message });
     setTimeout(function () {
-      $("#alert").hide();
+      $("alert").hide();
+    }, 3000);
+
+  }
+  errorModal(message: string, keepAfterRouteChange = false) {
+    $("alert").show();
+    $("alert:first").hide();
+    this.keepAfterRouteChange = keepAfterRouteChange;
+    this.subject.next({ type: 'error', text: message });
+    setTimeout(function () {
+      $("alert").hide();
     }, 3000);
 
   }

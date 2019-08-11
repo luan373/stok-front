@@ -31,6 +31,8 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
   submitted = false;
 
   titulo: string;
+  public cpfmask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+  public placamask = [/[A-Za-z]/, /[A-Za-z]/, /[A-Za-z]/, '-', /\d/, /\d/, /[a-zA-Z0-9_.-]/,  /\d/];
 
   constructor(
     private motoBoyService: MotoBoyService,
@@ -57,26 +59,7 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
       pageLength: 10,
       processing: true,
       language: {
-        emptyTable: "Nenhum registro encontrado",
-        info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-        infoEmpty: "Mostrando 0 até 0 de 0 registros",
-        infoFiltered: "(Filtrados de _MAX_ registros)",
-        infoPostFix: "",
-        lengthMenu: "_MENU_ resultados por página",
-        loadingRecords: "Carregando...",
-        processing: "Processando...",
-        zeroRecords: "Nenhum registro encontrado",
-        search: "Pesquisar",
-        paginate: {
-          next: "Próximo",
-          previous: "Anterior",
-          first: "Primeiro",
-          last: "Último"
-        },
-        aria: {
-          sortAscending: ": Ordenar colunas de forma ascendente",
-          sortDescending: ": Ordenar colunas de forma descendente"
-        }
+        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
       }
     };
 
@@ -165,7 +148,7 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
     this.submitted = true;
 
     if (this.motoBoyForm.invalid) {
-      this.alertService.error('Dados inválidos.');
+      this.alertService.errorModal('Campos obrigatórios não preenchidos !');
       return;
     }
 

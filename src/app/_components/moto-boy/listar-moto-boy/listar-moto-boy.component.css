@@ -11,6 +11,9 @@
 .dataTables_empty {
   display: none;
 }
+#lista {
+    margin-bottom: 50px;
+}
 
 h1 {
   padding-top: 2rem;
@@ -25,4 +28,34 @@ h1 {
 
 .btn-space {
   margin-right: 10px;
+}
+
+
+/* style all input elements with a required attribute */
+input:required {
+  box-shadow: 1px 1px 4px #e57373;
+}
+
+/**
+ * style input elements that have a required
+ * attribute and a focus state
+ */
+input:required:focus {
+  border: 1px solid red;
+  outline: none;
+}
+
+/**
+ * style input elements that have a required
+ * attribute and a hover state
+ */
+input:required:hover {
+  opacity: 1;
+}
+
+/* Show green borders when valid */
+input:valid {
+  border-color: darkgray;
+  box-shadow: none;
+
 }

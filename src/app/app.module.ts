@@ -22,6 +22,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
+import { TextMaskModule } from 'angular2-text-mask';
+
+
 
 @NgModule({
   declarations: [
@@ -42,6 +45,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     DataTablesModule,
     appRoutingModule,
     BrowserAnimationsModule,
+    TextMaskModule,
     [MatButtonModule, MatCheckboxModule]
 
   ],
