@@ -23,8 +23,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { TextMaskModule } from 'angular2-text-mask';
-
-
+import { ClienteComponent } from './_components/cliente/cliente.component';
+import { ListarClienteComponent } from './_components/cliente/listar-cliente/listar-cliente.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,9 @@ import { TextMaskModule } from 'angular2-text-mask';
     AlertComponent,
     MotoBoyComponent,
     ListarMotoBoyComponent,
-    ProdutoComponent
+    ProdutoComponent,
+    ClienteComponent,
+    ListarClienteComponent
   ],
   imports: [
     BrowserModule,
