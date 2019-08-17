@@ -38,6 +38,16 @@ export class AlertService {
     }, 3000);
 
   }
+  successModal(message: string, keepAfterRouteChange = false) {
+    $("alert").show();
+    $("#alertaModal").hide();
+    this.keepAfterRouteChange = keepAfterRouteChange;
+    this.subject.next({ type: 'success', text: message });
+    setTimeout(function () {
+      $("alert").hide();
+    }, 3000);
+
+  }
 
   error(message: string, keepAfterRouteChange = false) {
     $("alert").show();
@@ -50,7 +60,7 @@ export class AlertService {
   }
   errorModal(message: string, keepAfterRouteChange = false) {
     $("alert").show();
-    $("alert:first").hide();
+    $("#alertaListar").hide();
     this.keepAfterRouteChange = keepAfterRouteChange;
     this.subject.next({ type: 'error', text: message });
     setTimeout(function () {

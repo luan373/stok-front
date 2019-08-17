@@ -77,7 +77,7 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
   }
 
   public addMsgSucesso(msg: string) {
-    this.alertService.success(msg, true);
+    this.alertService.successModal(msg, true);
   }
 
   public excluirMotoBoy() {
@@ -179,8 +179,10 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
       $('body').removeClass('modal-open');
       $('.modal-backdrop').remove();
     });
-    this.alertService.success("MotoBoy salvo com sucesso!", true);
+    this.alertService.successModal("MotoBoy salvo com sucesso!", true);
     this.loading = false;
     this.rerender();
+    this.motoBoyForm.reset();  // Reset all form data
+
   }
 }
