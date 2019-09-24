@@ -15,7 +15,6 @@ import { appRoutingModule } from './app.routing';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { MotoBoyComponent } from './_components/moto-boy/moto-boy.component';
-import { ListarMotoBoyComponent } from './_components/moto-boy/listar-moto-boy/listar-moto-boy.component';
 import { ProdutoComponent } from './_components/produto/produto.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,7 +33,6 @@ import { ListarClienteComponent } from './_components/cliente/listar-cliente/lis
     HomeComponent,
     AlertComponent,
     MotoBoyComponent,
-    ListarMotoBoyComponent,
     ProdutoComponent,
     ClienteComponent,
     ListarClienteComponent
