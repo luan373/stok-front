@@ -1,6 +1,6 @@
 <h1>Lista de Motoboys</h1>
 <div id="botaoAdicionar">
-  <button href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
+  <button href="#modalMotoboy" class="btn btn-success" data-toggle="modal">
     <i class="material-icons align-bottom">add_circle</i>Adicionar</button>
 </div>
 <div id='lista'>
@@ -8,12 +8,12 @@
     [dtTrigger]="dtTrigger" id="tabelaMotoboy">
     <thead class="thead-dark">
       <tr>
-        <th>ID</th>
+        <th>Número</th>
         <th>Nome</th>
         <th>CPF</th>
         <th>Placa</th>
         <th>Número Habilitação</th>
-        <th>Ações</th>
+        <th>Ações</th> 
       </tr>
     </thead>
     <tbody>
@@ -24,10 +24,8 @@
         <td style="text-transform:uppercase">{{ motoBoy.placa }}</td>
         <td>{{ motoBoy.nrHabilitacao }}</td>
         <td>
-          <button class="btn btn-primary btn-space" (click)="redirecionaAlterar(motoBoy.id)"><i class="material-icons">
-              edit
-            </i></button>
-          <button href="#editEmployeeModal" class="btn btn-warning btn-space" data-toggle="modal"><i
+          <button href="#modalMotoboy" (click)="redirecionaAlterar(motoBoy.id)" class="btn btn-warning btn-space"
+            data-toggle="modal"><i
               class="material-icons">
               edit
             </i></button>
@@ -35,14 +33,13 @@
           recuperaMotoBoy(motoBoy)"><i class="material-icons">
               delete_forever
             </i></button>
-
       </tr>
     </tbody>
   </table>
 </div>
 
 <!-- Tela de Incluir-->
-<div id="addEmployeeModal" class="modal fade">
+<div id="modalMotoboy" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <!--Arrumar submit -->
@@ -86,51 +83,6 @@
     </div>
   </div>
 </div>
-<!-- Edit Modal HTML -->
-<div id="editEmployeeModal" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <!--Arrumar submit -->
-        <form [formGroup]="motoBoyForm" (ngSubmit)="onSubmit()">
-          <div class="modal-header">
-            <h4 class="modal-title">{{titulo}} </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          </div>
-          <div class="modal-body">
-            <alert></alert>
-            <div class="form-group">
-              <label>Nome</label>
-              <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome MotoBoy"
-                formControlName="nome" maxlength="80" required>
-            </div>
-            <div class="form-group">
-              <label>CPF</label>
-              <input type="text" id="cpf" name="cpf" class="form-control" placeholder="CPF" formControlName="cpf"
-                [textMask]="{mask: cpfmask}" required>
-            </div>
-            <div class="form-group">
-              <label>Placa</label>
-              <input type="text" id="placa" name="placa" class="form-control" placeholder="Placa"
-                formControlName="placa" [textMask]="{mask: placamask}" style="text-transform:uppercase" required>
-            </div>
-            <div class="form-group">
-              <label>Hablitação</label>
-              <input type="text" id="nrHabilitacao" name="nrHabilitacao" class="form-control"
-                placeholder="Número de Hablitação" formControlName="nrHabilitacao" maxlength="11" required>
-            </div>
-          </div>
-          <div class="modal-footer form-group">
-          <button class="btn btn-default" onClick="this.form.reset()" data-dismiss="modal">Cancelar</button>
-            <button [disabled]="loading" class="btn btn-success">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-              Salvar
-              <!--  -->
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-    </div>
 
 <!-- Delete ngx-smart-modal -->
 <ngx-smart-modal #myModalDelete identifier="myModalDelete">

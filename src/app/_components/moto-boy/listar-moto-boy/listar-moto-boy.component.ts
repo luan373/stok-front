@@ -58,6 +58,7 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
+      order: [0, 'desc'], //<= Use this
       language: {
         "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
       }
@@ -110,12 +111,29 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
   }
 
   public redirecionaAlterar(idMotoBoy: any) {
-    this.router.navigate(['/motoBoy', idMotoBoy]);
+    const id = idMotoBoy
+    // tslint:disable-next-line: triple-equals
+    if (id != undefined) {
+      this.motoBoyService.buscarPorId(id).subscribe(data => {
+        this.motoBoyForm = new FormGroup({
+          id: new FormControl(data.id, Validators.required),
+          nome: new FormControl(data.nome, Validators.required),
+          placa: new FormControl(data.placa, Validators.required),
+          cpf: new FormControl(data.cpf, Validators.required),
+          nrHabilitacao: new FormControl(data.nrHabilitacao, Validators.required)
+        });
+
+        this.titulo = "Alterar MotoBoy";
+      });
+
+    } else {
+      this.titulo = "Cadastrar MotoBoy";
+    }
 
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
+    this.dtTrigger.unsubscribe(); 
   }
   // tslint:disable-next-line: adjacent-overload-signatures
   private recuperaMotoBoyEdit() {
@@ -174,8 +192,8 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
   }
 
   redirecionaListaMotoBoy() {
-    $("#addEmployeeModal").fadeOut("normal", function () {
-      $('#addEmployeeModal').hide();
+    $("#modalMotoboy").fadeOut("normal", function () {
+      $('#modalMotoboy').hide();
       $('body').removeClass('modal-open');
       $('.modal-backdrop').remove();
     });
