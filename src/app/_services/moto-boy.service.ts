@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { MotoBoy } from '../_models/motoBoy';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { tap, catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
