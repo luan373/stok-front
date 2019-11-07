@@ -17,6 +17,7 @@ const routes: Routes = [
     { path: 'motoBoy', component: MotoBoyComponent },
     { path: 'listarMotoBoy', component: ListarMotoBoyComponent },
     { path: 'produto', component: ProdutoComponent },
+    { path: 'cliente/:id', component: ClienteComponent },
     { path: 'cliente', component: ClienteComponent },
     { path: 'listarCliente', component: ListarClienteComponent },
 

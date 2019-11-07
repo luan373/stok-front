@@ -1,1 +1,34 @@
-<p>listar-cliente works!</p>
+<h1>Lista de Clientes</h1>
+<div id="botaoAdicionar">
+    <button class="btn btn-success" data-toggle="modal" routerLink="/cliente">
+        <i class="material-icons align-bottom">add_circle</i>Adicionar</button>
+</div>
+<div id='lista'>
+    <table class="table table-striped table-hover table table-bordered" datatable [dtOptions]=" dtOptions"
+        [dtTrigger]="dtTrigger" id="tabelaMotoboy">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>CPF</th>
+                <th>E-mail</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cliente of listaCliente">
+                <td>{{ cliente.id }}</td>
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.telefone }}</td>
+                <td style="text-transform:uppercase">{{ cliente.cpf }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>
+                    <button class="btn btn-primary btn-space" (click)="redirecionaAlterar(cliente.id)"><i
+                            class="material-icons">
+                            edit
+                        </i></button>
+            </tr>
+        </tbody>
+    </table>
+</div>
