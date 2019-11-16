@@ -1,34 +1,77 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MotoBoy } from 'src/app/_models/motoBoy';
 import { AlertService } from '../alert/alert.service';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
+import { MotoBoy } from 'src/app/_models/motoBoy';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MotoBoyService } from 'src/app/_services/moto-boy.service';
-import { map } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { NgxSmartModalService, NgxSmartModalModule } from 'ngx-smart-modal';
+import { DataTableDirective } from 'angular-datatables';
+
 
 @Component({
   selector: 'app-moto-boy',
   templateUrl: './moto-boy.component.html',
   styleUrls: ['./moto-boy.component.css']
 })
-export class MotoBoyComponent implements OnInit, OnDestroy {
+export class ListarMotoBoyComponent implements OnInit, OnDestroy {
+
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
 
   motoBoyForm: FormGroup;
-  titulo: string;
+
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<MotoBoy> = new Subject();
+
+  listaMotoBoy: MotoBoy[] = [];
   motoBoy: MotoBoy;
+
   loading = false;
   submitted = false;
 
+  titulo: string;
+  public cpfmask = [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+  public placamask = [/[A-Za-z]/, /[A-Za-z]/, /[A-Za-z]/, '-', /\d/, /\d/, /[a-zA-Z0-9_.-]/,  /\d/];
+
   constructor(
-    private alertService: AlertService,
-    private route: ActivatedRoute,
+    private motoBoyService: MotoBoyService,
     private router: Router,
-    private motoBoyService: MotoBoyService
-  ) { }
+    private alertService: AlertService,
+    public ngxSmartModalService: NgxSmartModalService,
+    private route: ActivatedRoute) { }
 
-  ngOnInit() {
-    this.recuperaMotoBoy();
+  // Iniciação
 
+  ngOnInit(): void {
+    this.carregaLista();
+    this.iniciaForm();
+  }
+
+  private carregaLista() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
+      }
+    };
+
+    this.listar();
+  }
+
+  private listar() {
+    this.motoBoyService.listar().subscribe((data: []) => {
+      this.listaMotoBoy = data;
+      this.dtTrigger.next();
+    });
+    this.motoBoyForm = new FormGroup({
+      firstName: new FormControl()
+    });
+  }
+
+  iniciaForm() {
     this.motoBoyForm = new FormGroup({
       nome: new FormControl('', Validators.required),
       placa: new FormControl('', Validators.required),
@@ -37,15 +80,48 @@ export class MotoBoyComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  // Exclusão
 
+  public recuperaMotoBoy(motoBoy: MotoBoy) {
+    this.motoBoy = motoBoy;
   }
 
-  private recuperaMotoBoy() {
-    //https://stackoverflow.com/questions/40589730/local-storage-in-angular-2
-    let id = this.route.snapshot.params['id'];
+  public excluirMotoBoy() {
+    this.submitted = true;
+    this.loading = true;
 
-    if (id != undefined) {
+    this.motoBoyService.excluir(this.motoBoy.id).subscribe(
+      () => {
+        this.alertService.successModal('O MotoBoy ' + this.motoBoy.nome + ' foi excluído com sucesso !', true);
+        this.ngxSmartModalService.close('myModalDelete');
+
+        this.rerender();
+        this.submitted = false;
+        this.loading = false;
+      }
+    );
+  }
+
+  // Recriação da grid
+
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+      this.ngOnInit();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+  // tslint:disable-next-line: adjacent-overload-signatures
+  private verificaID(idMotoBoy: any) {
+    // https://stackoverflow.com/questions/40589730/local-storage-in-angular-2
+    const id = idMotoBoy;
+
+    if (id !== undefined) {
       this.motoBoyService.buscarPorId(id).subscribe(data => {
         this.motoBoyForm = new FormGroup({
           id: new FormControl(data.id, Validators.required),
@@ -54,24 +130,24 @@ export class MotoBoyComponent implements OnInit, OnDestroy {
           cpf: new FormControl(data.cpf, Validators.required),
           nrHabilitacao: new FormControl(data.nrHabilitacao, Validators.required)
         });
-
-        this.titulo = "Alterar MotoBoy";
+        this.titulo = 'Alterar MotoBoy';
+        $('#Modal').modal('toggle');
       });
 
     } else {
-      this.titulo = "Cadastrar MotoBoy";
+      this.titulo = 'Cadastrar MotoBoy';
+      $('#Modal').modal('toggle');
+
     }
   }
 
-  public direcionaListarMotoBoy() {
-    this.router.navigate(['/listarMotoBoy']);
-  }
+  // Salvar ou Atualizar
 
   onSubmit() {
     this.submitted = true;
 
     if (this.motoBoyForm.invalid) {
-      this.alertService.error('Dados inválidos.');
+      this.alertService.errorModal('Campos obrigatórios não preenchidos !');
       return;
     }
 
@@ -97,8 +173,11 @@ export class MotoBoyComponent implements OnInit, OnDestroy {
   }
 
   redirecionaListaMotoBoy() {
-    this.alertService.success("MotoBoy salvo com sucesso!", true);
-    this.router.navigate(['/listarMotoBoy']);
-  }
+    $('#Modal').modal('hide');
+    this.alertService.successModal('MotoBoy salvo com sucesso!', true);
+    this.loading = false;
+    this.rerender();
+    this.motoBoyForm.reset();  // Reset all form data
 
+  }
 }
