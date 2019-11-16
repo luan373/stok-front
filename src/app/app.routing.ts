@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './_components/login/login.component';
 import { HomeComponent } from './_components/home/home.component';
 import { AuthGuard } from './_helpers/auth.guard';
-import { ListarMotoBoyComponent } from './_components/moto-boy/listar-moto-boy/listar-moto-boy.component';
+import { ListarMotoBoyComponent } from './_components/moto-boy/moto-boy.component';
 import { ProdutoComponent } from './_components/produto/produto.component';
 import { ClienteComponent } from './_components/cliente/cliente.component';
 import { ListarClienteComponent } from './_components/cliente/listar-cliente/listar-cliente.component';

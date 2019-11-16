@@ -1,18 +1,18 @@
+import { AlertService } from '../alert/alert.service';
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { MotoBoy } from 'src/app/_models/motoBoy';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MotoBoyService } from 'src/app/_services/moto-boy.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { AlertService } from '../../alert/alert.service';
 import { NgxSmartModalService, NgxSmartModalModule } from 'ngx-smart-modal';
 import { DataTableDirective } from 'angular-datatables';
 
 
 @Component({
-  selector: 'app-listar-moto-boy',
-  templateUrl: './listar-moto-boy.component.html',
-  styleUrls: ['./listar-moto-boy.component.css']
+  selector: 'app-moto-boy',
+  templateUrl: './moto-boy.component.html',
+  styleUrls: ['./moto-boy.component.css']
 })
 export class ListarMotoBoyComponent implements OnInit, OnDestroy {
 
