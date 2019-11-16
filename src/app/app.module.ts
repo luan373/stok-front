@@ -14,7 +14,6 @@ import { AlertComponent } from './_components/alert/alert.component';
 import { appRoutingModule } from './app.routing';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
-import { MotoBoyComponent } from './_components/moto-boy/moto-boy.component';
 import { ListarMotoBoyComponent } from './_components/moto-boy/listar-moto-boy/listar-moto-boy.component';
 import { ProdutoComponent } from './_components/produto/produto.component';
 
@@ -25,6 +24,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ClienteComponent } from './_components/cliente/cliente.component';
 import { ListarClienteComponent } from './_components/cliente/listar-cliente/listar-cliente.component';
+import * as bootstrap from "bootstrap";
+import * as $ from "jquery";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,6 @@ import { ListarClienteComponent } from './_components/cliente/listar-cliente/lis
     NavbarComponent,
     HomeComponent,
     AlertComponent,
-    MotoBoyComponent,
     ListarMotoBoyComponent,
     ProdutoComponent,
     ClienteComponent,

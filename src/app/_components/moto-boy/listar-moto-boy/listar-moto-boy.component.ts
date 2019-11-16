@@ -3,7 +3,7 @@ import { MotoBoy } from 'src/app/_models/motoBoy';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MotoBoyService } from 'src/app/_services/moto-boy.service';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AlertService } from '../../alert/alert.service';
 import { NgxSmartModalService, NgxSmartModalModule } from 'ngx-smart-modal';
 import { DataTableDirective } from 'angular-datatables';
@@ -41,16 +41,11 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
     public ngxSmartModalService: NgxSmartModalService,
     private route: ActivatedRoute) { }
 
+  // Iniciação
+
   ngOnInit(): void {
     this.carregaLista();
-    this.recuperaMotoBoyEdit();
-
-    this.motoBoyForm = new FormGroup({
-      nome: new FormControl('', Validators.required),
-      placa: new FormControl('', Validators.required),
-      cpf: new FormControl('', Validators.required),
-      nrHabilitacao: new FormControl('', Validators.required)
-    });
+    this.iniciaForm();
   }
 
   private carregaLista() {
@@ -59,7 +54,7 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
       pageLength: 10,
       processing: true,
       language: {
-        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+        url: '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
       }
     };
 
@@ -76,8 +71,19 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
     });
   }
 
-  public addMsgSucesso(msg: string) {
-    this.alertService.successModal(msg, true);
+  iniciaForm() {
+    this.motoBoyForm = new FormGroup({
+      nome: new FormControl('', Validators.required),
+      placa: new FormControl('', Validators.required),
+      cpf: new FormControl('', Validators.required),
+      nrHabilitacao: new FormControl('', Validators.required)
+    });
+  }
+
+  // Exclusão
+
+  public recuperaMotoBoy(motoBoy: MotoBoy) {
+    this.motoBoy = motoBoy;
   }
 
   public excluirMotoBoy() {
@@ -86,8 +92,8 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
 
     this.motoBoyService.excluir(this.motoBoy.id).subscribe(
       () => {
-        this.addMsgSucesso("MotoBoy excluído com sucesso.");
-        this.ngxSmartModalService.close("myModalDelete");
+        this.alertService.successModal('O MotoBoy ' + this.motoBoy.nome + ' foi excluído com sucesso !', true);
+        this.ngxSmartModalService.close('myModalDelete');
 
         this.rerender();
         this.submitted = false;
@@ -96,33 +102,26 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
     );
   }
 
+  // Recriação da grid
+
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       // Destroy the table first
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
-      this.listar();
+      this.ngOnInit();
     });
-  }
-
-  public recuperaMotoBoy(motoBoy: MotoBoy) {
-    this.motoBoy = motoBoy;
-  }
-
-  public redirecionaAlterar(idMotoBoy: any) {
-    this.router.navigate(['/motoBoy', idMotoBoy]);
-
   }
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
   // tslint:disable-next-line: adjacent-overload-signatures
-  private recuperaMotoBoyEdit() {
-    //https://stackoverflow.com/questions/40589730/local-storage-in-angular-2
-    let id = this.route.snapshot.params['id'];
+  private verificaID(idMotoBoy: any) {
+    // https://stackoverflow.com/questions/40589730/local-storage-in-angular-2
+    const id = idMotoBoy;
 
-    if (id != undefined) {
+    if (id !== undefined) {
       this.motoBoyService.buscarPorId(id).subscribe(data => {
         this.motoBoyForm = new FormGroup({
           id: new FormControl(data.id, Validators.required),
@@ -131,18 +130,18 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
           cpf: new FormControl(data.cpf, Validators.required),
           nrHabilitacao: new FormControl(data.nrHabilitacao, Validators.required)
         });
-
-        this.titulo = "Alterar MotoBoy";
+        this.titulo = 'Alterar MotoBoy';
+        $('#Modal').modal('toggle');
       });
 
     } else {
-      this.titulo = "Cadastrar MotoBoy";
+      this.titulo = 'Cadastrar MotoBoy';
+      $('#Modal').modal('toggle');
+
     }
   }
 
-  public direcionaListarMotoBoy() {
-    this.router.navigate(['/listarMotoBoy']);
-  }
+  // Salvar ou Atualizar
 
   onSubmit() {
     this.submitted = true;
@@ -174,12 +173,8 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
   }
 
   redirecionaListaMotoBoy() {
-    $("#addEmployeeModal").fadeOut("normal", function () {
-      $('#addEmployeeModal').hide();
-      $('body').removeClass('modal-open');
-      $('.modal-backdrop').remove();
-    });
-    this.alertService.successModal("MotoBoy salvo com sucesso!", true);
+    $('#Modal').modal('hide');
+    this.alertService.successModal('MotoBoy salvo com sucesso!', true);
     this.loading = false;
     this.rerender();
     this.motoBoyForm.reset();  // Reset all form data
