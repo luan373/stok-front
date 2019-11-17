@@ -33,6 +33,5 @@ export class AlertComponent implements OnInit, OnDestroy {
         if( this.subscription != undefined){
             this.subscription.unsubscribe();
         }
-        
     }
 }
