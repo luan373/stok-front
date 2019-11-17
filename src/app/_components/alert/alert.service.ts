@@ -30,47 +30,27 @@ export class AlertService {
   }
 
   success(message: string, keepAfterRouteChange = false) {
-    $("alert").show();
+    $('alert').fadeIn('slow');
     this.keepAfterRouteChange = keepAfterRouteChange;
     this.subject.next({ type: 'success', text: message });
-    setTimeout(function () {
-      $("alert").hide();
-    }, 3000);
-
-  }
-  successModal(message: string, keepAfterRouteChange = false) {
-    $("alert").show();
-    $("#alertaModal").hide();
-    this.keepAfterRouteChange = keepAfterRouteChange;
-    this.subject.next({ type: 'success', text: message });
-    setTimeout(function () {
-      $("alert").hide();
-    }, 3000);
-
+    this.fechaAlerta();
   }
 
   error(message: string, keepAfterRouteChange = false) {
-    $("alert").show();
+    $('alert').fadeIn('slow');
     this.keepAfterRouteChange = keepAfterRouteChange;
     this.subject.next({ type: 'error', text: message });
-    setTimeout(function () {
-      $("alert").hide();
-    }, 3000);
-
-  }
-  errorModal(message: string, keepAfterRouteChange = false) {
-    $("alert").show();
-    $("#alertaListar").hide();
-    this.keepAfterRouteChange = keepAfterRouteChange;
-    this.subject.next({ type: 'error', text: message });
-    setTimeout(function () {
-      $("alert").hide();
-    }, 3000);
+    this.fechaAlerta();
 
   }
 
   clear() {
     // clear by calling subject.next() without parameters
     this.subject.next();
+  }
+  fechaAlerta() {
+    setTimeout(function () {
+      $('alert').fadeOut('slow');
+    }, 6000);
   }
 }

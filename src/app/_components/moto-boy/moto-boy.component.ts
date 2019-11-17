@@ -92,7 +92,7 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
 
     this.motoBoyService.excluir(this.motoBoy.id).subscribe(
       () => {
-        this.alertService.successModal('O MotoBoy ' + this.motoBoy.nome + ' foi excluído com sucesso !', true);
+        this.alertService.success('O MotoBoy ' + this.motoBoy.nome + ' foi excluído com sucesso !', true);
         this.ngxSmartModalService.close('myModalDelete');
 
         this.rerender();
@@ -147,7 +147,7 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
     this.submitted = true;
 
     if (this.motoBoyForm.invalid) {
-      this.alertService.errorModal('Campos obrigatórios não preenchidos !');
+      this.alertService.error('Campos obrigatórios não preenchidos !');
       return;
     }
 
@@ -174,7 +174,7 @@ export class ListarMotoBoyComponent implements OnInit, OnDestroy {
 
   redirecionaListaMotoBoy() {
     $('#Modal').modal('hide');
-    this.alertService.successModal('MotoBoy salvo com sucesso!', true);
+    this.alertService.success('MotoBoy salvo com sucesso!', true);
     this.loading = false;
     this.rerender();
     this.motoBoyForm.reset();  // Reset all form data
