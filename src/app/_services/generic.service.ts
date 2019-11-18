@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, retry } from 'rxjs/operators';
 import { AlertService } from '../_components/alert/alert.service';
 
 export abstract class GenericService<T> {
@@ -24,30 +24,24 @@ export abstract class GenericService<T> {
 
     atualizar(t: T): Observable<T> {
         return this.http.put<T>(this.API, t).pipe(
-            catchError(this.handleError('atualizar', t)));
+            catchError(this.handleError));
     }
 
     salvar(t: T): Observable<T> {
         return this.http.post<T>(this.API, t).pipe(
-            catchError(this.handleError('salvar', t)));
+            catchError(this.handleError));
     }
 
     excluir(id: number): Observable<any> {
         const url = this.API + "/" + id;
 
         return this.http.delete<T>(url).pipe(
-            catchError(this.handleError('deletar', id)));
+            retry(1),
+            catchError(this.handleError));
     }
 
-    private handleError<T>(operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
-
-            console.error(error); // log to console instead
-            this.alertService.error(error, true);
-
-            // Let the app keep running by returning an empty result.
-            return of(result as T);
-        };
+    handleError(error) {
+        return throwError(error);
     }
 
 }

@@ -81,12 +81,21 @@ export class ClienteComponent implements OnInit {
       this.clienteService.atualizar(this.cliente).subscribe(cliente => {
         this.alertService.success("Cliente salvo com sucesso!", true);
         this.redirecionaListaCliente();
-      });
+      },
+        error => {
+          this.alertService.error(error);
+          this.loading = false;
+        }
+      );
     } else {
       this.clienteService.salvar(this.cliente).subscribe(
-        () => {
+        cliente => {
           this.alertService.success("Cliente salvo com sucesso!", true);
           this.redirecionaListaCliente()
+        },
+        error => {
+          this.alertService.error(error);
+          this.loading = false;
         }
       );
     }
