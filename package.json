@@ -28,7 +28,7 @@
     "datatables.net-bs4": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
     "hammerjs": "^2.0.8",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ngx-smart-modal": "^7.1.1",
     "popper.js": "^1.15.0",
     "rxjs": "~6.4.0",
